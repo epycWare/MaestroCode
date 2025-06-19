@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Maestrocode</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --sidebar-width: 25%;
+      --accent-color: #c1ce50;
+      --text-color: #ffffff;
+      --bg-color: #111111;
+      --sidebar-bg: #000000;
+      --hover-color: #1e1e1e;
+      --selection-color: #c2c2c2;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      height: 100vh;
+      display: flex;
+      overflow: hidden;
+    }
+    /* Sidebar Styles */
+    .sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--sidebar-bg);
+      padding: 20px;
+      border-right: 1px solid #333;
+      display: flex;
+      flex-direction: column;
+    }
+    .logo-image {
+      width: 80%;
+      margin: 0 auto 2rem auto;
+      display: block;
+      max-width: 180px;
+    }
+    .menu-item {
+      padding: 12px 15px;
+      margin-bottom: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+    }
+    .menu-item:hover {
+      background-color: var(--hover-color);
+    }
+    .menu-item.active {
+      background-color: var(--accent-color);
+    }
+    .menu-item i {
+      margin-right: 10px;
+      font-size: 1.2rem;
+    }
+    /* Main Content Styles */
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      overflow: auto;
+    }
+    .greeting {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
+    .greeting span {
+      font-weight: 500;
+      color: var(--accent-color);
+    }
+    .content-area {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: var(--selection-color);
+    }
+    /* Inputs and buttons inside content */
+    input[type="text"],
+    input[type="file"],
+    select,
+    button,
+    input[type="color"] {
+      outline: none;
+      font-size: 1rem;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+</head>
+<body>
+  <!-- Sidebar Navigation -->
+  <div class="sidebar">
+    <img src="assets/logo.jpeg" alt="Maestrocode Logo" class="logo-image" />
+    <div class="menu-item active" data-target="dashboard">
+      <i class="material-icons">home</i>
+      <span>Dashboard</span>
+    </div>
+    <div class="menu-item" data-target="videoDownloader">
+      <i class="material-icons">download</i>
+      <span>Web Video Downloader</span>
+    </div>
+    <div class="menu-item" data-target="usbISOMaker">
+      <i class="material-icons">usb</i>
+      <span>USB ISO Maker</span>
+    </div>
+    <div class="menu-item" data-target="settings">
+      <i class="material-icons">settings</i>
+      <span>Settings</span>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="main-content">
+    <h1 class="greeting">Welcome to <span>Maestrocode</span></h1>
+
+    <div class="content-area" id="dashboard" style="display: block;">
+      <p>Welcome to the Dashboard. Select an option from the menu.</p>
+    </div>
+
+    <div class="content-area" id="videoDownloader" style="display: none; width: 100%; max-width: 600px; margin: 0 auto; text-align: center;">
+      <h2>Web Video Downloader</h2>
+      <input
+        type="text"
+        id="video-url"
+        placeholder="Enter video URL (e.g., https://youtube.com/...)"
+        style="width: 100%; padding: 10px; margin-top: 15px; border-radius: 6px; border: none;"
+      />
+      <br /><br />
+      <button
+        id="downloadBtn"
+        style="padding: 10px 20px; background-color: #4f46e5; color: white; border: none; border-radius: 6px;"
+      >
+        Download
+      </button>
+      <p id="video-status" style="margin-top: 15px;"></p>
+    </div>
+
+    <div class="content-area" id="usbISOMaker" style="display: none; width: 100%; max-width: 600px; margin: 0 auto; text-align: center;">
+      <h2>USB ISO Maker</h2>
+      <p>Select an ISO image:</p>
+      <input
+        type="file"
+        id="isoPath"
+        accept=".iso"
+        style="width: 100%; padding: 10px; border-radius: 6px; border: none;"
+      />
+      <br /><br />
+      <p>Select a USB drive:</p>
+      <select id="usbSelect" style="width: 100%; padding: 10px; border-radius: 6px; border: none;">
+        <option>Loading...</option>
+      </select>
+      <br /><br />
+      <button
+        id="writeBtn"
+        style="padding: 10px 20px; background-color: #4f46e5; color: white; border: none; border-radius: 6px;"
+      >
+        Write ISO
+      </button>
+      <p id="iso-status" style="margin-top: 15px;"></p>
+    </div>
+
+    <div class="content-area" id="settings" style="display: none; width: 100%; max-width: 600px; margin: 0 auto; text-align: center;">
+      <h2>Settings</h2>
+      <label for="accent-color">Select accent color:</label><br /><br />
+      <input
+        type="color"
+        id="accent-color"
+        value="#4f46e5"
+        style="width: 50%; padding: 10px; border: none; border-radius: 6px;"
+      />
+      <br /><br />
+      <button
+        id="applyAccentBtn"
+        style="padding: 10px 20px; background-color: #4f46e5; color: white; border: none; border-radius: 6px;"
+      >
+        Apply
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Sidebar menu navigation
+    document.querySelectorAll('.menu-item').forEach((item) => {
+      item.addEventListener('click', () => {
+        document.querySelector('.menu-item.active').classList.remove('active');
+        item.classList.add('active');
+
+        // Hide all content areas
+        document.querySelectorAll('.content-area').forEach((content) => {
+          content.style.display = 'none';
+        });
+
+        // Show selected content area
+        const target = item.getAttribute('data-target');
+        document.getElementById(target).style.display = 'block';
+
+        if (target === 'usbISOMaker') {
+          loadUSBDrives();
+        }
+      });
+    });
+
+    // Load USB drives using Electron IPC
+    async function loadUSBDrives() {
+      const usbSelect = document.getElementById('usbSelect');
+      const status = document.getElementById('iso-status');
+      usbSelect.innerHTML = '<option>Loading...</option>';
+      status.textContent = '';
+
+      try {
+        const drives = await window.electronAPI.getUSBDrives();
+        if (!drives || drives.length === 0) {
+          usbSelect.innerHTML = '<option>No USB drives found</option>';
+          return;
+        }
+
+        usbSelect.innerHTML = '';
+        drives.forEach((drive) => {
+          const opt = document.createElement('option');
+          opt.value = drive.letter;
+          opt.textContent = `${drive.letter} - ${drive.description}`;
+          usbSelect.appendChild(opt);
+        });
+      } catch (err) {
+        usbSelect.innerHTML = '<option>Error loading drives</option>';
+        status.textContent = 'Failed to load USB drives.';
+      }
+    }
+
+    // Write ISO button handler
+    const writeBtn = document.getElementById('writeBtn');
+    writeBtn?.addEventListener('click', async () => {
+      const fileInput = document.getElementById('isoPath');
+      const usbSelect = document.getElementById('usbSelect');
+      const status = document.getElementById('iso-status');
+
+      if (!fileInput.files.length) {
+        status.textContent = 'Please select an ISO file.';
+        return;
+      }
+
+      const isoPath = fileInput.files[0].path;
+      const usbDrive = usbSelect.value;
+
+      if (!usbDrive) {
+        status.textContent = 'Please select a USB drive.';
+        return;
+      }
+
+      status.textContent = 'Writing ISO to USB...';
+
+      try {
+        const result = await window.electronAPI.writeISO(isoPath, usbDrive);
+        status.textContent = result;
+      } catch (err) {
+        status.textContent = 'Error writing ISO: ' + err;
+      }
+    });
+
+    // Apply accent color button handler
+    const applyAccentBtn = document.getElementById('applyAccentBtn');
+    applyAccentBtn?.addEventListener('click', () => {
+      const input = document.getElementById('accent-color');
+      if (!input) return;
+      const color = input.value;
+      document.documentElement.style.setProperty('--accent-color', color);
+    });
+
+    // Download video button handler (placeholder)
+    const downloadBtn = document.getElementById('downloadBtn');
+    downloadBtn?.addEventListener('click', () => {
+      const url = document.getElementById('video-url').value;
+      const status = document.getElementById('video-status');
+      if (!url) {
+        status.textContent = 'Please enter a valid URL.';
+        return;
+      }
+      status.textContent = 'Download feature not implemented yet.';
+    });
+  </script>
+</body>
+</html>
