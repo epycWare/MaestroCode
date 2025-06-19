@@ -30,4 +30,4 @@ The name **MaestroCode** is derived from the Spanish word "Maestro," meaning *ma
 
 This name is used solely in a creative and technical context, with no relation to any financial services, brands, or products.
 
-epycWare 2025. All Rights Reserved
+© epycWare 2025. All Rights Reserved
